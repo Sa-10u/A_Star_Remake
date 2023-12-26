@@ -95,65 +95,34 @@ void A_Star::SetCost_RCOST()
 
 	int cos = cost_[Index(now_.x,now_.y)].R_Cos;
 
+	auto Func = [&](int x ,int y)
+		{
+			if (GetMapCost(x, y) && map_->MAP[Index(x, y)] != COMPUTED)
+			{
+				cos = cost_[Index()].R_Cos + GetMapCost(x, y);
+
+				cost_[Index(x, y)].R_Cos = cos;
+				cost_[Index(x, y)].G_Len = CalcLen(x, y);
+
+				CostMap cosm;
+				cosm.cost = cost_[Index(x, y)];
+				cosm.pos = p;
+
+				CalcableMap.push_back(cosm);
+			}
+		};
+
 	p.x = now_.x + 1;	p.y = now_.y;
-	if (GetMapCost(p.x,p.y) && map_->MAP[Index(p.x,p.y)] != COMPUTED)
-	{
-		cos = cost_[Index()].R_Cos + GetMapCost(p.x, p.y);
-
-		cost_[Index(p.x, p.y)].R_Cos = cos;
-		cost_[Index(p.x, p.y)].G_Len = CalcLen(p.x, p.y);
-		
-		CostMap cosm;
-		cosm.cost = cost_[Index(p.x, p.y)];
-		cosm.pos = p;
-
-		CalcableMap.push_back(cosm);
-	}
+	Func(p.x, p.y);
 
 	p.x = now_.x ;	p.y = now_.y+1;
-	if (GetMapCost(p.x, p.y) && map_->MAP[Index(p.x, p.y)] != COMPUTED)
-	{
-		cos = cost_[Index()].R_Cos + GetMapCost(p.x, p.y);
-
-		cost_[Index(p.x, p.y)].R_Cos = cos;
-		cost_[Index(p.x, p.y)].G_Len = CalcLen(p.x, p.y);
-
-		CostMap cosm;
-		cosm.cost = cost_[Index(p.x, p.y)];
-		cosm.pos = p;
-
-		CalcableMap.push_back(cosm);
-	}
+	Func(p.x, p.y);
 
 	p.x = now_.x -1;	p.y = now_.y;
-	if (GetMapCost(p.x, p.y) && map_->MAP[Index(p.x, p.y)] != COMPUTED)
-	{
-		cos = cost_[Index()].R_Cos + GetMapCost(p.x, p.y);
-
-		cost_[Index(p.x, p.y)].R_Cos = cos;
-		cost_[Index(p.x, p.y)].G_Len = CalcLen(p.x, p.y);
-
-		CostMap cosm;
-		cosm.cost = cost_[Index(p.x, p.y)];
-		cosm.pos = p;
-
-		CalcableMap.push_back(cosm);
-	}
+	Func(p.x, p.y);
 
 	p.x = now_.x ;	p.y = now_.y-1;
-	if (GetMapCost(p.x, p.y) && map_->MAP[Index(p.x, p.y)] != COMPUTED)
-	{
-		cos = cost_[Index()].R_Cos + GetMapCost(p.x, p.y);
-
-		cost_[Index(p.x, p.y)].R_Cos = cos;
-		cost_[Index(p.x, p.y)].G_Len = CalcLen(p.x, p.y);
-
-		CostMap cosm;
-		cosm.cost = cost_[Index(p.x, p.y)];
-		cosm.pos = p;
-
-		CalcableMap.push_back(cosm);
-	}
+	Func(p.x, p.y);
 
 	p = now_;
 
